@@ -34,3 +34,33 @@ code {
     font-size: 20px;
     font-weight: bold;
 }
+
+.like-counter {
+    margin: 10px;
+    width: 150px;
+}
+
+.popular-tags-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 40px;
+}
+
+.best-members-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.question-links {
+    margin-top: 30px;
+}
+
+.page-numbers {
+    margin: 30px 0 50% 50%;
+}
+
+.avatar_image {
+    max-width: 50px;
+    margin: 10px;
+}
