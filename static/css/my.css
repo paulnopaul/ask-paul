@@ -6,13 +6,9 @@ main > .container {
   padding: 60px 15px 0;
 }
 
-.footer {
-  background-color: #f5f5f5;
-}
-
-.footer > .container {
-  padding-right: 15px;
-  padding-left: 15px;
+.account-actions {
+    text-decoration: underline;
+    margin-left: 5px;
 }
 
 code {
@@ -20,8 +16,13 @@ code {
 }
 
 .question-img {
-    max-width: 150px;
+    max-width: 100%;
 }
+
+#upper-element {
+    margin-top: 50px;
+}
+
 
 .question-box {
     margin-top: 30px;
@@ -36,8 +37,24 @@ code {
 }
 
 .like-counter {
-    margin: 10px;
-    width: 150px;
+    margin: 10px 10% 0 10%;
+    width: 80%;
+    padding: 0;
+    text-align: center;
+}
+
+.like-count {
+    color: #007bff;
+    border-color: #007bff;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0;
 }
 
 .popular-tags-title {
@@ -52,6 +69,10 @@ code {
     margin-top: 20px;
 }
 
+.best-member {
+    margin-right: 7px;
+}
+
 .question-links {
     margin-top: 30px;
 }
@@ -64,3 +85,16 @@ code {
     max-width: 50px;
     margin: 10px;
 }
+
+.new-question-title {
+    margin-top: 50px;
+}
+
+.ask-btn {
+    margin-top: 20px;
+}
+
+.question-part {
+    margin-top: 20px;
+}
+
