@@ -1,0 +1,8 @@
+{% extends 'inc/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<legend>Question #{{ question.id }}</legend>
+{% include 'inc/one_question.html' %}
+{% endblock content %}

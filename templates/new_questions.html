@@ -1,0 +1,11 @@
+{% extends 'inc/base.html' %}
+
+{% load static %}
+
+{% block content %}
+<legend id='page-legend'>New questions</legend>
+{% for question in questions %}
+{% include 'inc/one_question.html' %}
+{% endfor %}
+{% endblock content %}
+

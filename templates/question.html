@@ -1,0 +1,25 @@
+{% extends 'inc/base.html' %}
+
+
+{% load static %}
+{% block content %}
+<div class="col-9">
+	<form>
+		<div class="row" id="upper-element">
+			<div class="col-1">Title</div>
+			<div class="col-8">
+				<input type="text" class="form-control" id="question-title" placeholder="Question title">
+			</div>
+		</div>
+		<div class="row new-question-text">
+			<div class="col-1">Text</div>
+			<div class="col-8"></div>
+		</div>
+		<div class="row new-question-tags">
+			<div class="col-1">Tags</div>
+			<div class="col-8"></div>
+		</div>
+		<button class="btn btn-outline-primary">ASK!</button>
+	</form>
+</div>
+{% endblock content %}
