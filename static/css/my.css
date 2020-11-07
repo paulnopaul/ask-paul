@@ -19,8 +19,8 @@ code {
     max-width: 100%;
 }
 
-#page-legend {
-    margin-top: 50px;
+legend {
+    margin-top: 50px !important;
 }
 
 .question-box {
