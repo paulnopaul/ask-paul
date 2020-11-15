@@ -3,12 +3,9 @@
 {% load static %}
 
 {% block content %}
-
-  <legend>hot questions</legend>
-
-  {% include 'inc/one_question.html' %}
-  {% include 'inc/one_question.html' %}
-  {% include 'inc/one_question.html' %}
-  {% include 'inc/one_question.html' %}
-
+<legend>Hot questions</legend>
+{% for question in  questions %}
+{% include 'inc/one_question.html' %}
+{% endfor %}
+{% include 'inc/pagination.html' %}
 {% endblock content %}

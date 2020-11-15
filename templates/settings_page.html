@@ -2,20 +2,20 @@
 
 {% load static %}
 {% block content %}
-<legend>Log In</legend>
+<legend></legend>
 <div class="col-9">
 	<form>
 		<div class="form-group">
 			<label for="userLogin">Login</label>
-            <input class="form-control" type="text" id="userLogin" placeholder="Username">
+            <input class="form-control" type="text" id="userLogin" placeholder="New login">
 		</div>
           <div class="form-group">
             <label for="userEmail">Email address</label>
             <input type="email" class="form-control" id="userEmail" placeholder="email@server.com">
         </div>
 		<div class="form-group">
-			<label for="userName">Name</label>
-            <input class="form-control" type="text" id="userName" placeholder="Username">
+			<label for="userName">New Name</label>
+            <input class="form-control" type="text" id="userName" placeholder="New name">
 		</div>
 
         <div class="form-group">
@@ -28,6 +28,5 @@
             <button type="submit" class="btn btn-primary">Save</button>
 		</div>
 	</form>
-	{% comment %} <a href="#">Already have an account? Log in!</a> {% endcomment %}
 </div>
 {% endblock content %}

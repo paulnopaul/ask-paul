@@ -51,14 +51,26 @@ def new_questions(request):
 
 
 def hot_questions(request):
-    return render(request, 'hot_questions.html', {})
+    hot_question_list = questions
+    paginator = Paginator(hot_question_list, questions_per_page)
+    page = request.GET.get('page')
+
+    hot_showed_quesitons = paginator.get_page(page)
+
+    return render(request, 'hot_questions.html', {
+        'questions': hot_showed_quesitons,
+    })
 
 
 def tag_questions(request, t):
-    tquestions = list(filter(lambda x: t in x['tags'], questions))
+    tag_questions_list = list(filter(lambda x: t in x['tags'], questions))
+    paginator = Paginator(tag_questions_list, questions_per_page)
+    page = request.GET.get('page')
+
+    tag_showed_questions = paginator.get_page(page)
     return render(request, 'tag_page.html', {
         'tag_name':  t,
-        'questions': tquestions,
+        'questions': tag_showed_questions,
     })
 
 
