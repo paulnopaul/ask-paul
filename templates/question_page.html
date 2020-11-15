@@ -3,6 +3,18 @@
 {% load static %}
 
 {% block content %}
-<legend>Question #{{ question.id }}</legend>
-{% include 'inc/one_question.html' %}
+<legend>Answers</legend>
+{% include 'inc/full_question.html' %}
+<hr>
+{% for answer in question.answers %}
+{% include 'inc/one_answer.html' %}
+{% endfor %}
+<hr>
+<form>
+    <div class="form-group">
+        <label for="questionText">Text</label>
+        <textarea class="form-control" id="questionText" rows="3" placeholder="Enter your answer here"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Answer</button>
+</form>
 {% endblock content %}

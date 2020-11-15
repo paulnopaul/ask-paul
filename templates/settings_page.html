@@ -1,0 +1,33 @@
+{% extends 'inc/base.html' %}
+
+{% load static %}
+{% block content %}
+<legend>Log In</legend>
+<div class="col-9">
+	<form>
+		<div class="form-group">
+			<label for="userLogin">Login</label>
+            <input class="form-control" type="text" id="userLogin" placeholder="Username">
+		</div>
+          <div class="form-group">
+            <label for="userEmail">Email address</label>
+            <input type="email" class="form-control" id="userEmail" placeholder="email@server.com">
+        </div>
+		<div class="form-group">
+			<label for="userName">Name</label>
+            <input class="form-control" type="text" id="userName" placeholder="Username">
+		</div>
+
+        <div class="form-group">
+            <label for="exampleFormControlFile1">Choose avatar</label>
+            <br>
+            <img src="{% static "img/img_100.JPG" %}" class="rounded form-group current-avatar"></img>
+            <input type="file" class="form-control-file" id="userAvatar">
+        </div>
+		<div class="form-group">
+            <button type="submit" class="btn btn-primary">Save</button>
+		</div>
+	</form>
+	{% comment %} <a href="#">Already have an account? Log in!</a> {% endcomment %}
+</div>
+{% endblock content %}

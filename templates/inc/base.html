@@ -20,13 +20,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-9">
-                {% block content %}
-                {% endblock content %}
+                    {% block content %}
+                    {% endblock content %}
                 </div>
                 <div class="col-3 right-column">
-				{% include 'inc/right.html' %}
-                <!-- {% block right %} -->
-                <!-- {% endblock right %} -->
+                    {% include 'inc/right.html' %}
                 </div>
             </div>
         </div>
@@ -35,5 +33,11 @@
     <script src="{% static "js/popper.min.js" %}"></script>
     <script src="{% static "js/bootstrap.min.js" %}"></script>
 </body>
+
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">AskPaul web service, WTFPL licence. 2020.</span>
+    </div>
+</footer>
 
 </html>
