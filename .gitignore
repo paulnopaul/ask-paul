@@ -3,4 +3,5 @@ node_modules
 *venv
 *.vscode
 *.pyc
+*migrations/*
 
