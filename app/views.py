@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.core.paginator import Paginator
 import random
 
+from .models import Question, Answer
+
 tags = ['tag1', 'tag2', 'tag3', 'tag4']
 
 lorem_ipsum = '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed 
@@ -20,64 +22,60 @@ answer_count = 10
 
 answers = [
     {
-            'id': idx,
-            'text': f'answer {idx}',
-            'is_correct': True,
+        'id': idx,
+        'text': f'answer {idx}',
+        'is_correct': True,
     } for idx in range(answer_count)
 ]
 
 questions = [
-        {
-            'id': idx,
-            'title': f'title {idx}',
-            'text': lorem_ipsum,
-            'tags': [tags[idx % len(tags)], tags[(idx + 1) % len(tags)]],
-            'answers': [random.choice(answers) for i in range(random.randint(1, 10))],
-            'like_count': idx
-        } for idx in range(question_count)
-        ]
+    {
+        'id': idx,
+        'title': f'title {idx}',
+        'text': lorem_ipsum,
+        'tags': [tags[idx % len(tags)], tags[(idx + 1) % len(tags)]],
+        'answers': [random.choice(answers) for i in range(random.randint(1, 10))],
+        'like_count': idx
+    } for idx in range(question_count)
+]
+
+
+def paginate_objects(objects, page, objects_per_page=20):
+    return Paginator(objects, objects_per_page).get_page(page)
 
 
 def new_questions(request):
-    new_question_list = questions
-    paginator = Paginator(new_question_list, questions_per_page)
-    page = request.GET.get('page')
-
-    new_showed_questions = paginator.get_page(page)
-
+    q = paginate_objects(Question.objects.new(),
+                         request.GET.get('page'), 11)
     return render(request, 'new_questions.html', {
-        'questions': new_showed_questions,
+        'questions': q
     })
 
 
 def hot_questions(request):
-    hot_question_list = questions
-    paginator = Paginator(hot_question_list, questions_per_page)
-    page = request.GET.get('page')
-
-    hot_showed_quesitons = paginator.get_page(page)
-
+    q = paginate_objects(Question.objects.hot(),
+                         request.GET.get('page'), 11)
     return render(request, 'hot_questions.html', {
-        'questions': hot_showed_quesitons,
+        'questions': q
     })
 
 
 def tag_questions(request, t):
-    tag_questions_list = list(filter(lambda x: t in x['tags'], questions))
-    paginator = Paginator(tag_questions_list, questions_per_page)
-    page = request.GET.get('page')
-
-    tag_showed_questions = paginator.get_page(page)
+    q = paginate_objects(Question.objects.by_tag(t),
+                         request.GET.get('page'), 11)
     return render(request, 'tag_page.html', {
-        'tag_name':  t,
-        'questions': tag_showed_questions,
+        'tag_title': t,
+        'questions': q
     })
 
 
 def question_page(request, pk):
     question = questions[pk]
+    answers = paginate_objects(Answer.objects.by_question(pk),
+                               request.GET.get('page'), 5)
     return render(request, 'question_page.html', {
-        'question': question
+        'question': question,
+        'questions': answers
     })
 
 
