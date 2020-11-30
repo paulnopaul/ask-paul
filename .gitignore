@@ -4,6 +4,5 @@ node_modules
 *.vscode
 *.pyc
 app/migrations*
-app/management*
 *.sqlite3
 
