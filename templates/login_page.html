@@ -4,19 +4,21 @@
 {% block content %}
 <legend>Log In</legend>
 <div class="col-9">
-	<form>
-		<div class="form-group">
+	<form method="POST"  action='/login/' enctype="">
+	{% csrf_token %}
+	{{ form.as_p }}
+		{% comment %} <div class="form-group">
 			<label for="userLogin">Login</label>
             <input class="form-control" type="text" id="userLogin" placeholder="Username" required>
 		</div>
 		<div class="form-group">
 			<label for="userPassword">Password</label>
 			<input type="password" class="form-control" id="userPassword" placeholder="Password">
-		</div>
+		</div>{% endcomment %}
 		<div class="form-group">
             <button type="submit" class="btn btn-primary">Log in!</button>
-		</div>
-	</form>
+		</div> 	
+		</form>
 	<a href='/signup'>Don't have an account? Create new one!</a>
 </div>
 {% endblock content %}

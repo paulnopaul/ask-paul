@@ -15,6 +15,9 @@ class Profile(models.Model):
         verbose_name = "Профиль"
         verbose_name_plural = "Профили"
 
+class QuestionLikeManager(models.Manager):
+    def by_question(self, id):
+        return self.filte(question_id=id)
 
 class QuestionLike(models.Model):
     user = models.ForeignKey(
@@ -25,12 +28,18 @@ class QuestionLike(models.Model):
     question = models.ForeignKey('Question', on_delete=models.CASCADE)
     is_upvote = models.BooleanField(verbose_name="Положительный")
 
+    objects = QuestionLikeManager()
+
     def __str__(self):
         return self.question.title
 
     class Meta:
         verbose_name = "Лайк на вопросе"
         verbose_name_plural = "Лайки на вопросах"
+
+class AnswerLikeManager(models.Manager):
+    def by_answer(self, id):
+        return self.filter(answer_id=id)
 
 
 class AnswerLike(models.Model):
@@ -42,6 +51,8 @@ class AnswerLike(models.Model):
     answer = models.ForeignKey('Answer', on_delete=models.CASCADE)
     is_upvote = models.BooleanField(verbose_name="Положительный")
 
+    objects = AnswerLikeManager()
+
     class Meta:
         verbose_name = "Лайк на ответе"
         verbose_name_plural = "Лайки на ответах"
@@ -51,10 +62,15 @@ class TagManager(models.Manager):
     def by_title(self, title_name):
         return self.filter(title=title_name)
 
+    def popular(self):
+        return self.order_by('-question_count')[:20]
+
 
 class Tag(models.Model):
     title = models.CharField(max_length=50, unique=True,
                              verbose_name="Название")
+    question_count = models.PositiveIntegerField(
+        default=0, verbose_name="Кол-во вопросов")
     objects = TagManager()
 
     def __str__(self):
@@ -88,7 +104,7 @@ class Question(models.Model):
     text = models.TextField(verbose_name="Текст")
     creation_date = models.DateField(
         auto_now_add=True, verbose_name="Дата создания")
-    like_count = models.IntegerField(verbose_name='Кол-во лайков')
+    like_count = models.IntegerField(default=0, verbose_name='Кол-во лайков')
     objects = QuestionManager()
 
     def __str__(self):
@@ -113,7 +129,7 @@ class Answer(models.Model):
     text = models.TextField("Текст")
     creation_date = models.DateField(
         auto_now_add=True, verbose_name="Дата создания")
-    like_count = models.IntegerField(verbose_name='Кол-во лайков')
+    like_count = models.IntegerField(default=0, verbose_name='Кол-во лайков')
     objects = AnswerManager()
 
     class Meta:

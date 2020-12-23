@@ -1,9 +1,14 @@
+{% load static %}
+
 <div class="popular-tags-block">
 	<div class="popular-tags-title">
 		Popular taaags
 	</div>
 	<div class="popular-tags">
-		<a href="#" class=" tag" style="color: red; font-size: 20px;">Python</a>
+	{% for tag in popular_tags %}
+		<a href="{% url 'tag' tag.title %}">{{ tag.title }}</a>
+	{% endfor %}
+	<!--
 		<a href="#" class=" tag" style="color: green; font-size: 15px;">Not Python</a>
 		<a href="#" class=" tag" style="color: orange; font-size: 25px">CPP</a>
 		<a href="#" class=" tag" style="color: blue; font-size: 13px;">Yandex</a>
@@ -18,6 +23,7 @@
 		<a href="#" class=" tag" style="color: orange; font-size: 25px">Sleep</a>
 		<a href="#" class=" tag" style="color: blue; font-size: 13px;">42</a>
 		<a href="#" class=" tag" style="color: black; font-size: 16px;">Матрешки</a>
+-->
 	</div>
 </div>
 <div class="best-members-block">

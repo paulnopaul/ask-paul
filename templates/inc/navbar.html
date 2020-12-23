@@ -10,6 +10,10 @@
         <form action='\ask'>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">ASK</button>
         </form>
-        {% include 'inc/navbar_user_authorized.html' %}
+        {% if request.user.is_authenticated %}
+            {% include 'inc/navbar_user_authorized.html' %}
+        {% else %}
+            {% include 'inc/navbar_user_unauthorized.html' %}
+        {% endif %}
     </div>
 </nav>

@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.core.paginator import Paginator
 import random
 
-from .models import Question, Answer
+from .models import Question, Answer, Tag
+
+from app.forms import LoginForm
+from django.contrib import auth
 
 tags = ['tag1', 'tag2', 'tag3', 'tag4']
 
@@ -20,35 +23,16 @@ questions_per_page = 11
 answer_count = 10
 
 
-answers = [
-    {
-        'id': idx,
-        'text': f'answer {idx}',
-        'is_correct': True,
-    } for idx in range(answer_count)
-]
-
-questions = [
-    {
-        'id': idx,
-        'title': f'title {idx}',
-        'text': lorem_ipsum,
-        'tags': [tags[idx % len(tags)], tags[(idx + 1) % len(tags)]],
-        'answers': [random.choice(answers) for i in range(random.randint(1, 10))],
-        'like_count': idx
-    } for idx in range(question_count)
-]
-
-
 def paginate_objects(objects, page, objects_per_page=20):
     return Paginator(objects, objects_per_page).get_page(page)
 
 
 def new_questions(request):
-    q = paginate_objects(Question.objects.new(),
-                         request.GET.get('page'), 11)
     return render(request, 'new_questions.html', {
-        'questions': q
+        'questions': paginate_objects(Question.objects.new(),
+                         request.GET.get('page'), 11),
+        'popular_tags': Tag.objects.popular()
+
     })
 
 
@@ -56,7 +40,8 @@ def hot_questions(request):
     q = paginate_objects(Question.objects.hot(),
                          request.GET.get('page'), 11)
     return render(request, 'hot_questions.html', {
-        'questions': q
+        'questions': q,
+        'popular_tags': Tag.objects.popular()
     })
 
 
@@ -65,22 +50,35 @@ def tag_questions(request, t):
                          request.GET.get('page'), 11)
     return render(request, 'tag_page.html', {
         'tag_title': t,
-        'questions': q
+        'questions': q,
+        'popular_tags': Tag.objects.popular()
     })
 
 
 def question_page(request, pk):
-    question = questions[pk]
+    question = Question.objects.get(pk=pk)
     answers = paginate_objects(Answer.objects.by_question(pk),
                                request.GET.get('page'), 5)
     return render(request, 'question_page.html', {
         'question': question,
-        'questions': answers
+        'questions': answers,
+        'popular_tags': Tag.objects.popular()
     })
 
 
 def login_page(request):
-    return render(request, 'login_page.html', {})
+    if request.method == 'GET':
+        form = LoginForm()
+    else:
+        form = LoginForm(data=request.POST)
+        if form.is_valid():
+            user = auth.authenticate(request, **form.cleaned_data)
+            if user is not None:
+                auth.login(request, user)
+                return redirect("/") # нужны правильный редиректы (на предыдущую страницу)
+
+    ctx = {'form': form}
+    return render(request, 'login_page.html', ctx)
 
 
 def signup_page(request):
