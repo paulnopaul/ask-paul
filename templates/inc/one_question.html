@@ -10,7 +10,7 @@
         <div class="question-text">{{ question.text|truncatechars:270}}</div>
         <div class="row question-links">
             <div class="col question-answers">
-                <a href="/question/{{ question.id }}/">answers({{ question.answers|length }})</a>
+                <a href="/question/{{ question.id }}/">answers({{ question.answer_count }})</a>
             </div>
             <div class="col question-tags"> 
                 Tags:

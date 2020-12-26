@@ -7,8 +7,6 @@ from .models import Question, Answer, Tag
 from app.forms import LoginForm
 from django.contrib import auth
 
-tags = ['tag1', 'tag2', 'tag3', 'tag4']
-
 lorem_ipsum = '''Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed 
 do eiusmod tempor incididunt ut labore et dolore magna 
 aliqua. Ut enim ad minim veniam, quis nostrud exercitation 
@@ -66,6 +64,11 @@ def question_page(request, pk):
     })
 
 
+def logout(request):
+    auth.logout(request)
+    return redirect("/") # TODO нужны правильный редиректы (на предыдущую страницу)
+
+
 def login_page(request):
     if request.method == 'GET':
         form = LoginForm()
@@ -75,7 +78,7 @@ def login_page(request):
             user = auth.authenticate(request, **form.cleaned_data)
             if user is not None:
                 auth.login(request, user)
-                return redirect("/") # нужны правильный редиректы (на предыдущую страницу)
+                return redirect("/") # TODO нужны правильный редиректы (на предыдущую страницу)
 
     ctx = {'form': form}
     return render(request, 'login_page.html', ctx)

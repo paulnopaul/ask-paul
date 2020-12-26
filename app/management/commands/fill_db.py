@@ -22,7 +22,7 @@ class Command(BaseCommand):
         self.user_count = options['users']
         self.tag_count = options['tags']
         self.question_count = options['questions']
-        self.answer_count = options['tags']
+        self.answer_count = options['answers']
         self.alike_count = options['alikes']
         self.qlike_count = options['qlikes']
 
@@ -30,6 +30,7 @@ class Command(BaseCommand):
         self.f = Faker()
 
         get_user_model().objects.create_superuser('admin', '', 'password')
+        get_user_model().objects.create_user('user', '', 'xxx')
         self.create_users()
         self.create_tags()
         self.create_questions()
@@ -50,7 +51,7 @@ class Command(BaseCommand):
         print(self.user_count, "Users")
         for i in range(self.user_count):
             rname = self.f.user_name()
-            User(username=self.f.name(), email=self.f.email(),
+            User(username=''.join(self.f.words(2)), email=self.f.email(),
                  first_name=self.f.first_name(), password=self.f.password()).save()
         self.user_ids = list(User.objects.values_list('id', flat=True))
 
@@ -81,10 +82,14 @@ class Command(BaseCommand):
         print(self.answer_count, "Answers")
         question_ids = list(Question.objects.values_list('id', flat=True))
         for i in range(self.answer_count):
+            q_id = choice(question_ids)
             a = Answer(user_id=choice(self.user_ids),
-                       question_id=choice(question_ids),
-                       text=self.f.sentences(randint(2, 5))
+                       question_id=q_id,
+                       text=self.f.text(max_nb_chars=1000)
                        )
+            q = Question.objects.get(pk=q_id)
+            q.answer_count += 1
+            q.save()
             a.save()
 
     def create_answer_likes(self):
