@@ -1,23 +1,14 @@
 {% extends 'inc/base.html' %}
 
 {% load static %}
+{% load bootstrap4 %}
+
 {% block content %}
-<legend>New question</legend>
-<div class="col-9">
-	<form>
-		<div class="form-group">
-			<label for="questionTitle">Title</label>
-            <input class="form-control" type="text" id="questionTitle" placeholder="Title">
-		</div>
-		<div class="form-group">
-			<label for="questionText">Text</label>
-			<textarea class="form-control" id="questionText" rows="15"></textarea>
-		</div>
-		<div class="form-group">
-			<label for="questionTags">Tags</label>
-            <input class="form-control" type="text" id="questionTags" placeholder="Tags">
-		</div>
-		<button type="submit" class="btn btn-primary">ASK!</button>
-	</form>
-</div>
+
+    <legend>New question</legend>
+    <div class="col-9">
+        <form method='POST' action="/ask/" enctype=''>
+            {% include 'inc/form.html' %}
+        </form>
+    </div>
 {% endblock content %}

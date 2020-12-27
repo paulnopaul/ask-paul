@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% load static %}
+{% load bootstrap4 %}
+
+{% csrf_token %}
+{% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        <a class="close" href="#" data-dismiss="alert">×</a>
+        {{ message }}
+    </div>
+{% endfor %}
+{% bootstrap_form form %}
+{% buttons %}
+    <button type="submit" class="btn btn-primary">Submit!</button>
+{% endbuttons %}

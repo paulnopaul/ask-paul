@@ -8,16 +8,22 @@ class Profile(models.Model):
         on_delete=models.CASCADE,
     )
     avatar = models.ImageField(verbose_name="Аватар")
-    # email = models.EmailField(verbose_name="E-Mail")
-    # name = models.CharField(max_length=20, verbose_name="Имя")
 
     class Meta:
         verbose_name = "Профиль"
         verbose_name_plural = "Профили"
 
+
 class QuestionLikeManager(models.Manager):
-    def by_question(self, id):
-        return self.filte(question_id=id)
+    def q_downvotes(self, q_id):
+        return self.filter(question_id=q_id, is_upvote=True)
+
+    def q_upvotes(self, q_id):
+        return self.filter(question_id=q_id, is_upvote=True)
+
+    def by_question(self, q_id):
+        return self.filter(question_id=q_id)
+
 
 class QuestionLike(models.Model):
     user = models.ForeignKey(
@@ -37,9 +43,16 @@ class QuestionLike(models.Model):
         verbose_name = "Лайк на вопросе"
         verbose_name_plural = "Лайки на вопросах"
 
+
 class AnswerLikeManager(models.Manager):
-    def by_answer(self, id):
-        return self.filter(answer_id=id)
+    def ans_upvotes(self, a_id):
+        return self.filter(answer_id=a_id, is_upvote=True)
+
+    def ans_downvotes(self, a_id):
+        return self.filter(answer_id=a_id, is_upvote=False)
+
+    def by_answer(self, a_id):
+        return self.filter(answer_id=a_id)
 
 
 class AnswerLike(models.Model):
@@ -62,15 +75,14 @@ class TagManager(models.Manager):
     def by_title(self, title_name):
         return self.filter(title=title_name)
 
+    #
     def popular(self):
         return self.order_by('-question_count')[:20]
 
 
 class Tag(models.Model):
-    title = models.CharField(max_length=50, unique=True,
+    title = models.CharField(max_length=100, unique=True,
                              verbose_name="Название")
-    question_count = models.PositiveIntegerField(
-        default=0, verbose_name="Кол-во вопросов")
     objects = TagManager()
 
     def __str__(self):
@@ -99,7 +111,7 @@ class Question(models.Model):
         on_delete=models.CASCADE,
     )
     tags = models.ManyToManyField('Tag')
-    title = models.CharField(max_length=50, verbose_name="Название",
+    title = models.CharField(max_length=100, verbose_name="Название",
                              unique=True)
     text = models.TextField(verbose_name="Текст")
     creation_date = models.DateField(
@@ -118,7 +130,7 @@ class Question(models.Model):
 
 class AnswerManager(models.Manager):
     def by_question(self, question_pk):
-        return self.filter(question=Question.objects.get(pk=question_pk))
+        return self.filter(question=Question.objects.get(pk=question_pk)).order_by('like_count')
 
 
 class Answer(models.Model):
